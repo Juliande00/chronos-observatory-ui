@@ -12,7 +12,7 @@ export function KpiCard({
   label: string;
   value: ReactNode;
   hint?: ReactNode;
-  tone?: "default" | "success" | "warning" | "danger" | "info" | "learning";
+  tone?: "default" | "success" | "warning" | "danger" | "info" | "learning" | "muted";
   icon?: ReactNode;
 }) {
   const toneText = {
@@ -22,6 +22,7 @@ export function KpiCard({
     danger: "text-destructive",
     info: "text-info",
     learning: "text-learning",
+    muted: "text-muted-foreground",
   }[tone];
 
   return (
