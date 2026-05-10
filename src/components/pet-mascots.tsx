@@ -176,7 +176,7 @@ export function SpikeMascot({ className }: PetSvgProps) {
   );
 }
 
-export const MASCOTS: Record<string, (p: PetSvgProps & { warn?: boolean }) => JSX.Element> = {
+export const MASCOTS: Record<string, (p: PetSvgProps & { warn?: boolean }) => React.ReactElement> = {
   corey: CoreyMascot,
   shieldy: (p) => <ShieldyMascot {...p} warn />,
   wick: WickMascot,
