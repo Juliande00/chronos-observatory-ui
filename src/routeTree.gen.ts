@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TreatmentRouteImport } from './routes/treatment'
+import { Route as TradesRouteImport } from './routes/trades'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RiskRouteImport } from './routes/risk'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as HermesRouteImport } from './routes/hermes'
+import { Route as GovernorRouteImport } from './routes/governor'
+import { Route as CandlesightRouteImport } from './routes/candlesight'
+import { Route as BrainRouteImport } from './routes/brain'
+import { Route as ArenaRouteImport } from './routes/arena'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TreatmentRoute = TreatmentRouteImport.update({
+  id: '/treatment',
+  path: '/treatment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradesRoute = TradesRouteImport.update({
+  id: '/trades',
+  path: '/trades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiskRoute = RiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HermesRoute = HermesRouteImport.update({
+  id: '/hermes',
+  path: '/hermes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernorRoute = GovernorRouteImport.update({
+  id: '/governor',
+  path: '/governor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CandlesightRoute = CandlesightRouteImport.update({
+  id: '/candlesight',
+  path: '/candlesight',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrainRoute = BrainRouteImport.update({
+  id: '/brain',
+  path: '/brain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArenaRoute = ArenaRouteImport.update({
+  id: '/arena',
+  path: '/arena',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/arena': typeof ArenaRoute
+  '/brain': typeof BrainRoute
+  '/candlesight': typeof CandlesightRoute
+  '/governor': typeof GovernorRoute
+  '/hermes': typeof HermesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/settings': typeof SettingsRoute
+  '/trades': typeof TradesRoute
+  '/treatment': typeof TreatmentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/arena': typeof ArenaRoute
+  '/brain': typeof BrainRoute
+  '/candlesight': typeof CandlesightRoute
+  '/governor': typeof GovernorRoute
+  '/hermes': typeof HermesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/settings': typeof SettingsRoute
+  '/trades': typeof TradesRoute
+  '/treatment': typeof TreatmentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/arena': typeof ArenaRoute
+  '/brain': typeof BrainRoute
+  '/candlesight': typeof CandlesightRoute
+  '/governor': typeof GovernorRoute
+  '/hermes': typeof HermesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/settings': typeof SettingsRoute
+  '/trades': typeof TradesRoute
+  '/treatment': typeof TreatmentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/arena'
+    | '/brain'
+    | '/candlesight'
+    | '/governor'
+    | '/hermes'
+    | '/reports'
+    | '/risk'
+    | '/settings'
+    | '/trades'
+    | '/treatment'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/arena'
+    | '/brain'
+    | '/candlesight'
+    | '/governor'
+    | '/hermes'
+    | '/reports'
+    | '/risk'
+    | '/settings'
+    | '/trades'
+    | '/treatment'
+  id:
+    | '__root__'
+    | '/'
+    | '/arena'
+    | '/brain'
+    | '/candlesight'
+    | '/governor'
+    | '/hermes'
+    | '/reports'
+    | '/risk'
+    | '/settings'
+    | '/trades'
+    | '/treatment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArenaRoute: typeof ArenaRoute
+  BrainRoute: typeof BrainRoute
+  CandlesightRoute: typeof CandlesightRoute
+  GovernorRoute: typeof GovernorRoute
+  HermesRoute: typeof HermesRoute
+  ReportsRoute: typeof ReportsRoute
+  RiskRoute: typeof RiskRoute
+  SettingsRoute: typeof SettingsRoute
+  TradesRoute: typeof TradesRoute
+  TreatmentRoute: typeof TreatmentRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/treatment': {
+      id: '/treatment'
+      path: '/treatment'
+      fullPath: '/treatment'
+      preLoaderRoute: typeof TreatmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trades': {
+      id: '/trades'
+      path: '/trades'
+      fullPath: '/trades'
+      preLoaderRoute: typeof TradesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/risk': {
+      id: '/risk'
+      path: '/risk'
+      fullPath: '/risk'
+      preLoaderRoute: typeof RiskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hermes': {
+      id: '/hermes'
+      path: '/hermes'
+      fullPath: '/hermes'
+      preLoaderRoute: typeof HermesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/governor': {
+      id: '/governor'
+      path: '/governor'
+      fullPath: '/governor'
+      preLoaderRoute: typeof GovernorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/candlesight': {
+      id: '/candlesight'
+      path: '/candlesight'
+      fullPath: '/candlesight'
+      preLoaderRoute: typeof CandlesightRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brain': {
+      id: '/brain'
+      path: '/brain'
+      fullPath: '/brain'
+      preLoaderRoute: typeof BrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arena': {
+      id: '/arena'
+      path: '/arena'
+      fullPath: '/arena'
+      preLoaderRoute: typeof ArenaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +257,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArenaRoute: ArenaRoute,
+  BrainRoute: BrainRoute,
+  CandlesightRoute: CandlesightRoute,
+  GovernorRoute: GovernorRoute,
+  HermesRoute: HermesRoute,
+  ReportsRoute: ReportsRoute,
+  RiskRoute: RiskRoute,
+  SettingsRoute: SettingsRoute,
+  TradesRoute: TradesRoute,
+  TreatmentRoute: TreatmentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
