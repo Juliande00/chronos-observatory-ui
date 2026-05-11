@@ -131,7 +131,14 @@ function PetsSection() {
         title="System Pets · Modul-Begleiter"
         subtitle="Jedes Pet repräsentiert ein ClaudeTrader-Modul. Shadow-Pets analysieren nur."
       />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {PETS.map((p) => (
+          <div key={p.id} className="w-[88%] shrink-0 snap-start">
+            <PetCard pet={p} />
+          </div>
+        ))}
+      </div>
+      <div className="hidden gap-4 sm:grid sm:grid-cols-2 xl:grid-cols-4">
         {PETS.map((p) => <PetCard key={p.id} pet={p} />)}
       </div>
     </section>
