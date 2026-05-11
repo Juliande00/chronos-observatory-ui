@@ -1,19 +1,19 @@
 import { MASCOTS } from "./pet-mascots";
 import { cn } from "@/lib/utils";
 
-export function PetIcon({ id, size = 28, className, halo = true }: { id: string; size?: number; className?: string; halo?: boolean }) {
+export function PetIcon({ id, size = 36, className, halo = true }: { id: string; size?: number; className?: string; halo?: boolean }) {
   const Mascot = MASCOTS[id];
   if (!Mascot) return null;
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-xl border border-[var(--glass-border)]",
-        halo && "bg-[oklch(0.18_0.04_265_/_70%)] shadow-inner",
+        "inline-flex shrink-0 items-center justify-center rounded-xl",
+        halo && "border border-[var(--glass-border)] bg-[oklch(0.18_0.04_265_/_70%)]",
         className,
       )}
-      style={{ width: size + 8, height: size + 8 }}
+      style={{ width: size, height: size }}
     >
-      <Mascot className="h-full w-full" />
+      <Mascot className="h-[88%] w-[88%]" />
     </span>
   );
 }
