@@ -39,62 +39,86 @@ export const WARNINGS = [
 
 export type PetStatus = "active" | "warning" | "critical" | "shadow" | "idle";
 
-export const PETS = [
+export type Pet = {
+  id: string; name: string; module: string; role: string;
+  status: PetStatus; statusLabel: string;
+  metrics: { label: string; value: string }[];
+  shadow: boolean; alert?: string;
+  says: string; commentarySource: "fallback" | "ollama-ready";
+};
+
+export const PETS: Pet[] = [
   {
-    id: "corey", name: "Corey", module: "ClaudeTrader Core",
-    role: "Hält das System aktiv und überwacht den Markt.",
-    status: "active" as PetStatus, statusLabel: "scanning",
-    metrics: [{ label: "Health", value: "98%" }, { label: "Last Scan", value: "14s" }],
+    id: "corey", name: "Corey", module: "ClaudeTrader Core · Decision",
+    role: "Überwacht den Markt und hält ClaudeTrader aktiv.",
+    status: "active", statusLabel: "scanning",
+    metrics: [{ label: "Health", value: "98%" }, { label: "Last Scan", value: "14s" }, { label: "Mode", value: "Live" }],
     shadow: false,
+    says: "Markt ruhig. Ich scanne 14 Paare und halte die Decision-Loop am Laufen.",
+    commentarySource: "fallback",
   },
   {
-    id: "shieldy", name: "Shieldy", module: "Risk Engine / Balance",
+    id: "shieldy", name: "Shieldy", module: "Risk Engine · Balance",
     role: "Schützt Balance, Drawdown und Risk-Limits.",
-    status: "warning" as PetStatus, statusLabel: "warning",
-    metrics: [{ label: "Balance", value: "WARN" }, { label: "DD", value: "-1.8%" }],
+    status: "warning", statusLabel: "warning",
+    metrics: [{ label: "Balance", value: "WARN" }, { label: "DD", value: "-1.8%" }, { label: "Risk", value: "$1.20" }],
     shadow: false, alert: "Balance WARN – AutoApply blockiert.",
+    says: "Stale Offset entdeckt. AutoApply bleibt blockiert, bis das geklärt ist.",
+    commentarySource: "fallback",
   },
   {
-    id: "wick", name: "Wick", module: "CandleSight Shadow",
-    role: "Beobachtet Kerzenstruktur. Shadow-only.",
-    status: "shadow" as PetStatus, statusLabel: "watching",
-    metrics: [{ label: "Samples", value: "412" }, { label: "Exit Pressure", value: "Mid" }],
+    id: "wick", name: "Wick", module: "CandleSight · Shadow",
+    role: "Beobachtet Kerzenstruktur und Exit-Pressure.",
+    status: "shadow", statusLabel: "watching",
+    metrics: [{ label: "Samples", value: "645" }, { label: "Pressure", value: "Mid" }, { label: "Joined", value: "36" }],
     shadow: true,
+    says: "ETH-Setup zeigt Fakeout-Charakter. Ich rate zur Vorsicht – greife aber nicht ein.",
+    commentarySource: "ollama-ready",
   },
   {
-    id: "sparky", name: "Sparky", module: "Battle Arena",
-    role: "Lässt Spezialisten-Bots diskutieren. Shadow-only.",
-    status: "shadow" as PetStatus, statusLabel: "debating",
-    metrics: [{ label: "Votes", value: "1,284" }, { label: "Bots", value: "13" }],
+    id: "sparky", name: "Sparky", module: "Battle Arena · Shadow",
+    role: "Lässt Spezialisten-Bots Trades diskutieren.",
+    status: "shadow", statusLabel: "debating",
+    metrics: [{ label: "Votes", value: "168" }, { label: "Bots", value: "13" }, { label: "Sample", value: "small" }],
     shadow: true,
+    says: "Bull- vs. Bear-Case ist mixed. Sample noch zu klein für klare Empfehlung.",
+    commentarySource: "ollama-ready",
   },
   {
     id: "luna", name: "Luna", module: "Nightly Governor",
-    role: "Lernt nachts und erstellt Vorschläge. Keine AutoApply.",
-    status: "shadow" as PetStatus, statusLabel: "propose_only",
-    metrics: [{ label: "Last Report", value: "04:12" }, { label: "AutoApply", value: "OFF" }],
+    role: "Lernt nachts und erstellt Vorschläge.",
+    status: "shadow", statusLabel: "propose_only",
+    metrics: [{ label: "Report", value: "04:12" }, { label: "AutoApply", value: "OFF" }, { label: "Proposals", value: "12" }],
     shadow: true,
+    says: "12 No-Boost-Vorschläge bereit. Ich warte auf manuelle Freigabe.",
+    commentarySource: "fallback",
   },
   {
-    id: "hermes", name: "Hermes", module: "Hermes Shadow / Learning",
-    role: "Risk-Sensor, kein harter Entscheider.",
-    status: "shadow" as PetStatus, statusLabel: "neutral",
-    metrics: [{ label: "Risk", value: "Neutral" }, { label: "Missed Wins", value: "12" }],
+    id: "hermes", name: "Hermes", module: "Hermes Shadow · Risk-Sensor",
+    role: "Risk-on / Risk-off Sensor, kein Entscheider.",
+    status: "shadow", statusLabel: "risk_off",
+    metrics: [{ label: "Risk", value: "Off" }, { label: "Missed", value: "12" }, { label: "Mode", value: "Shadow" }],
     shadow: true,
+    says: "Risk-Off Sensor leuchtet. Nur Hinweis – Decision Core entscheidet.",
+    commentarySource: "ollama-ready",
   },
   {
     id: "rocket", name: "Rocket", module: "RunnerScout",
-    role: "Sucht echte Runner, boostet aber nicht live.",
-    status: "shadow" as PetStatus, statusLabel: "runner-watch",
-    metrics: [{ label: "Candidates", value: "4" }, { label: "Wins", value: "9" }],
+    role: "Sucht Runner-Strukturen, boostet nicht live.",
+    status: "shadow", statusLabel: "runner-watch",
+    metrics: [{ label: "Candidates", value: "4" }, { label: "Wins", value: "9" }, { label: "PF", value: "4.21" }],
     shadow: true,
+    says: "BTC zeigt Runner-Struktur. Ich beobachte – kein Live-Boost.",
+    commentarySource: "fallback",
   },
   {
     id: "spike", name: "Spike", module: "MFE0GuardBot",
-    role: "Warnt vor Sofortverlust-Trades.",
-    status: "critical" as PetStatus, statusLabel: "mfe0-risk",
-    metrics: [{ label: "MFE0 Rate", value: "39.2%" }, { label: "No-Boost", value: "12" }],
+    role: "Warnt vor Trades, die nie ins Plus laufen.",
+    status: "critical", statusLabel: "mfe0-risk",
+    metrics: [{ label: "MFE0", value: "39.2%" }, { label: "No-Boost", value: "12" }, { label: "Acc", value: "71%" }],
     shadow: true,
+    says: "MFE0-Quote bei 39%. Mehrere Setups ohne jede Profit-Bewegung – Vorsicht!",
+    commentarySource: "ollama-ready",
   },
 ];
 

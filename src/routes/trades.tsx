@@ -1,18 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GlassCard, SectionTitle } from "@/components/glass-card";
 import { StatusBadge } from "@/components/status-badge";
+import { PetIcon } from "@/components/pet-icon";
 import { OPEN_TRADES } from "@/lib/mock-data";
-import { CheckCircle2, AlertTriangle, Circle, XCircle, Database } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Circle, XCircle, Database, Activity, Brain, Swords, Compass, Flame, Stethoscope, ShieldAlert, LogIn, Briefcase, Eye, Moon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 export const Route = createFileRoute("/trades")({
   head: () => ({ meta: [{ title: "Live Trades · ClaudeTrader" }, { name: "description", content: "Offene Trades, Trade Journey und Closed-Übersicht." }] }),
   component: TradesPage,
 });
 
-const JOURNEY_STEPS = [
-  "Market Data", "Signal", "Strategy", "XGBoost", "Battle Arena",
-  "Hermes", "CandleSight", "Treatment", "Risk", "Entry",
-  "Position", "Exit Watch", "Learning",
+type StepTone = "ok" | "warn" | "risk" | "pending" | "data" | "shadow";
+
+type Step = {
+  id: string; label: string; icon: ReactNode; pet?: string;
+  shadow?: boolean;
+};
+
+const STEPS: Step[] = [
+  { id: "data", label: "Market Data", icon: <Database className="h-3.5 w-3.5" /> },
+  { id: "signal", label: "Signal", icon: <Activity className="h-3.5 w-3.5" /> },
+  { id: "strategy", label: "Strategy", icon: <Activity className="h-3.5 w-3.5" /> },
+  { id: "xgb", label: "XGBoost", icon: <Brain className="h-3.5 w-3.5" />, shadow: true },
+  { id: "arena", label: "Battle Arena", icon: <Swords className="h-3.5 w-3.5" />, pet: "sparky", shadow: true },
+  { id: "hermes", label: "Hermes", icon: <Compass className="h-3.5 w-3.5" />, pet: "hermes", shadow: true },
+  { id: "candle", label: "CandleSight", icon: <Flame className="h-3.5 w-3.5" />, pet: "wick", shadow: true },
+  { id: "treat", label: "Treatment", icon: <Stethoscope className="h-3.5 w-3.5" />, pet: "spike" },
+  { id: "risk", label: "Risk", icon: <ShieldAlert className="h-3.5 w-3.5" />, pet: "shieldy" },
+  { id: "entry", label: "Entry", icon: <LogIn className="h-3.5 w-3.5" /> },
+  { id: "position", label: "Position", icon: <Briefcase className="h-3.5 w-3.5" />, pet: "corey" },
+  { id: "exit", label: "Exit Watch", icon: <Eye className="h-3.5 w-3.5" /> },
+  { id: "learn", label: "Learning", icon: <Moon className="h-3.5 w-3.5" />, pet: "luna" },
 ];
 
 function TradesPage() {
@@ -30,6 +50,7 @@ function TradesPage() {
         <p className="mt-2 text-sm text-muted-foreground">BTC/USDT · LONG · SMC_TJR · gehalten 3h 18m · Exit Grade B+ · Retained Profit 71%.</p>
         <p className="mt-1 text-xs text-muted-foreground">Learning: Treatment-Klasse "Protected-Win" bestätigt.</p>
       </GlassCard>
+      <p className="text-center text-xs text-muted-foreground">Shadow-Module erklären nur und greifen nicht live ein.</p>
     </div>
   );
 }
@@ -63,17 +84,11 @@ function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
       </div>
 
       <div>
-        <div className="mb-1.5 text-xs uppercase tracking-wider text-muted-foreground">Trade Journey</div>
-        <div className="flex flex-wrap gap-1.5">
-          {JOURNEY_STEPS.map((s, i) => {
-            const tone = stepTone(t, i);
-            return (
-              <div key={s} className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] ${toneCls(tone)}`}>
-                <StepIcon tone={tone} />{s}
-              </div>
-            );
-          })}
+        <div className="mb-2 flex items-center justify-between">
+          <div className="text-xs uppercase tracking-wider text-muted-foreground">Trade Journey</div>
+          <div className="text-[10px] text-muted-foreground/70">Shadow-Schritte greifen nicht ein</div>
         </div>
+        <Journey t={t} />
       </div>
 
       <div className="grid gap-2 text-xs">
@@ -89,6 +104,39 @@ function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
         ))}
       </div>
     </GlassCard>
+  );
+}
+
+function Journey({ t }: { t: typeof OPEN_TRADES[number] }) {
+  return (
+    <ol className="relative space-y-2">
+      {/* vertical connector line */}
+      <div className="pointer-events-none absolute left-[14px] top-2 bottom-2 w-px bg-gradient-to-b from-[var(--glass-border)] via-[var(--glass-border)] to-transparent" />
+      {STEPS.map((s, i) => {
+        const tone = stepTone(t, i, s);
+        return (
+          <li key={s.id} className="relative flex items-start gap-3">
+            <span className={cn(
+              "relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border",
+              toneCls(tone),
+            )}>
+              <StepIcon tone={tone} />
+            </span>
+            <div className="flex min-w-0 flex-1 items-center justify-between gap-2 rounded-lg border border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_50%)] px-2.5 py-1.5">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="text-muted-foreground">{s.icon}</span>
+                <span className="truncate text-xs font-medium">{s.label}</span>
+                {s.pet && <PetIcon id={s.pet} size={20} halo={false} />}
+                {s.shadow && <span className="rounded-full border border-warning/30 bg-warning/10 px-1.5 py-0 text-[9px] text-warning">shadow</span>}
+              </div>
+              <span className={cn("text-[10px] font-medium uppercase tracking-wider", toneText(tone))}>
+                {toneLabel(tone)}
+              </span>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -109,28 +157,40 @@ function Row({ label, value, tone }: { label: string; value: string; tone: any }
   );
 }
 
-type StepTone = "ok" | "warn" | "risk" | "pending" | "data";
-function stepTone(t: typeof OPEN_TRADES[number], i: number): StepTone {
+function stepTone(t: typeof OPEN_TRADES[number], i: number, s: Step): StepTone {
   if (i === 0) return "data";
-  if (t.symbol.startsWith("ETH") && (i === 4 || i === 5 || i === 6 || i === 7)) return "warn";
-  if (t.symbol.startsWith("ETH") && i === 8) return "risk";
-  if (i >= 12) return "pending";
+  if (s.shadow && t.symbol.startsWith("ETH") && (s.id === "arena" || s.id === "hermes" || s.id === "candle")) return "warn";
+  if (s.shadow) return "shadow";
+  if (t.symbol.startsWith("ETH") && s.id === "treat") return "risk";
+  if (s.id === "learn") return "pending";
   return "ok";
 }
+
 function toneCls(t: StepTone) {
   return {
-    ok: "border-success/30 bg-success/10 text-success",
-    warn: "border-warning/30 bg-warning/10 text-warning",
-    risk: "border-destructive/30 bg-destructive/10 text-destructive",
+    ok: "border-success/40 bg-success/15 text-success",
+    warn: "border-warning/40 bg-warning/15 text-warning",
+    risk: "border-destructive/50 bg-destructive/15 text-destructive",
     pending: "border-border bg-muted text-muted-foreground",
-    data: "border-info/30 bg-info/10 text-info",
+    data: "border-info/40 bg-info/15 text-info",
+    shadow: "border-learning/30 bg-learning/10 text-learning",
   }[t];
 }
+function toneText(t: StepTone) {
+  return {
+    ok: "text-success", warn: "text-warning", risk: "text-destructive",
+    pending: "text-muted-foreground", data: "text-info", shadow: "text-learning",
+  }[t];
+}
+function toneLabel(t: StepTone) {
+  return { ok: "ok", warn: "watch", risk: "risk", pending: "pending", data: "input", shadow: "shadow" }[t];
+}
 function StepIcon({ tone }: { tone: StepTone }) {
-  const cls = "h-3 w-3";
+  const cls = "h-3.5 w-3.5";
   if (tone === "ok") return <CheckCircle2 className={cls} />;
   if (tone === "warn") return <AlertTriangle className={cls} />;
   if (tone === "risk") return <XCircle className={cls} />;
   if (tone === "data") return <Database className={cls} />;
+  if (tone === "shadow") return <Eye className={cls} />;
   return <Circle className={cls} />;
 }
