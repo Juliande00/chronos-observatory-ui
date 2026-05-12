@@ -16,6 +16,7 @@ import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as HermesRouteImport } from './routes/hermes'
 import { Route as GovernorRouteImport } from './routes/governor'
+import { Route as ChartRouteImport } from './routes/chart'
 import { Route as CandlesightRouteImport } from './routes/candlesight'
 import { Route as BrainRouteImport } from './routes/brain'
 import { Route as ArenaRouteImport } from './routes/arena'
@@ -56,6 +57,11 @@ const GovernorRoute = GovernorRouteImport.update({
   path: '/governor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChartRoute = ChartRouteImport.update({
+  id: '/chart',
+  path: '/chart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CandlesightRoute = CandlesightRouteImport.update({
   id: '/candlesight',
   path: '/candlesight',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
+  '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/reports': typeof ReportsRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
+  '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/reports': typeof ReportsRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
+  '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/reports': typeof ReportsRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/arena'
     | '/brain'
     | '/candlesight'
+    | '/chart'
     | '/governor'
     | '/hermes'
     | '/reports'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/arena'
     | '/brain'
     | '/candlesight'
+    | '/chart'
     | '/governor'
     | '/hermes'
     | '/reports'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/arena'
     | '/brain'
     | '/candlesight'
+    | '/chart'
     | '/governor'
     | '/hermes'
     | '/reports'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   ArenaRoute: typeof ArenaRoute
   BrainRoute: typeof BrainRoute
   CandlesightRoute: typeof CandlesightRoute
+  ChartRoute: typeof ChartRoute
   GovernorRoute: typeof GovernorRoute
   HermesRoute: typeof HermesRoute
   ReportsRoute: typeof ReportsRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chart': {
+      id: '/chart'
+      path: '/chart'
+      fullPath: '/chart'
+      preLoaderRoute: typeof ChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/candlesight': {
       id: '/candlesight'
       path: '/candlesight'
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArenaRoute: ArenaRoute,
   BrainRoute: BrainRoute,
   CandlesightRoute: CandlesightRoute,
+  ChartRoute: ChartRoute,
   GovernorRoute: GovernorRoute,
   HermesRoute: HermesRoute,
   ReportsRoute: ReportsRoute,
