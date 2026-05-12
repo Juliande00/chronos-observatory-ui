@@ -18,7 +18,8 @@ export const Route = createFileRoute("/")({
 
 function MissionControl() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
+    <div className="relative mx-auto max-w-7xl space-y-8">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-50" />
       <StatusBar />
       <KpiGrid />
       <NarrativePanel />
@@ -29,17 +30,23 @@ function MissionControl() {
 
 function StatusBar() {
   return (
-    <GlassCard className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      <div>
+    <GlassCard className="relative overflow-hidden flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-primary/15 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 -bottom-24 h-64 w-64 rounded-full bg-learning/15 blur-3xl" />
+      <div className="relative">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">Mission Control</h1>
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-success/60 anim-ping-ring" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success anim-heartbeat" />
+          </span>
+          <h1 className="text-2xl font-semibold tracking-tight text-gradient-primary">Mission Control</h1>
           <StatusBadge tone="muted">{SYSTEM_STATUS.appVersion}</StatusBadge>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
           AI-assistiertes Trading-Cockpit · Shadow-Systeme erklären, sie traden nicht.
         </p>
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="relative flex flex-wrap items-center gap-2">
         <StatusBadge tone="success" dot>Online</StatusBadge>
         <StatusBadge tone="info">Mode: {SYSTEM_STATUS.tradingMode}</StatusBadge>
         <StatusBadge tone="learning">Governor: propose_only</StatusBadge>
