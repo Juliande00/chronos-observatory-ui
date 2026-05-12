@@ -201,6 +201,84 @@ export const REPORTS = [
   { title: "Blocker Quality Audit", date: "Vor 2 Tagen", status: "ok", summary: "Blocker funktionieren.", module: "governor" },
 ];
 
+export type LlmProvider = {
+  id: string;
+  name: string;
+  type: "local" | "cloud";
+  status: "online" | "offline" | "degraded";
+  latencyMs: number;
+  costPer1k: number; // USD
+  contextK: number;
+  privacy: "on-device" | "encrypted-cloud";
+  models: { id: string; label: string; size: string; strength: string; recommended?: boolean }[];
+};
+
+export const LLM_PROVIDERS: LlmProvider[] = [
+  {
+    id: "ollama", name: "Ollama (lokal)", type: "local", status: "online",
+    latencyMs: 180, costPer1k: 0, contextK: 32, privacy: "on-device",
+    models: [
+      { id: "llama3.1:8b", label: "Llama 3.1 8B", size: "4.7 GB", strength: "Schnell · gut für Commentary", recommended: true },
+      { id: "llama3.1:70b", label: "Llama 3.1 70B", size: "40 GB", strength: "Stark · langsamer auf CPU" },
+      { id: "qwen2.5:14b", label: "Qwen 2.5 14B", size: "8.2 GB", strength: "Sehr gut für Reasoning" },
+      { id: "mistral:7b", label: "Mistral 7B", size: "4.1 GB", strength: "Lean · für Fallback" },
+      { id: "phi3:mini", label: "Phi-3 Mini", size: "2.2 GB", strength: "Tiny · Edge-tauglich" },
+    ],
+  },
+  {
+    id: "lovable-ai", name: "Lovable AI Gateway", type: "cloud", status: "online",
+    latencyMs: 420, costPer1k: 0.0008, contextK: 128, privacy: "encrypted-cloud",
+    models: [
+      { id: "google/gemini-3-flash-preview", label: "Gemini 3 Flash", size: "—", strength: "Default · schnell & günstig", recommended: true },
+      { id: "google/gemini-2.5-pro", label: "Gemini 2.5 Pro", size: "—", strength: "Tiefes Reasoning" },
+      { id: "openai/gpt-5-mini", label: "GPT-5 Mini", size: "—", strength: "Allrounder, niedrige Kosten" },
+      { id: "openai/gpt-5", label: "GPT-5", size: "—", strength: "Maximale Qualität" },
+    ],
+  },
+  {
+    id: "openai", name: "OpenAI direkt", type: "cloud", status: "degraded",
+    latencyMs: 510, costPer1k: 0.0025, contextK: 128, privacy: "encrypted-cloud",
+    models: [
+      { id: "gpt-4o-mini", label: "GPT-4o Mini", size: "—", strength: "Günstig · solide" },
+      { id: "gpt-4o", label: "GPT-4o", size: "—", strength: "Stark multimodal" },
+      { id: "o1-mini", label: "o1-mini", size: "—", strength: "Reasoning-fokussiert" },
+    ],
+  },
+];
+
+export const LLM_DEFAULTS = {
+  providerId: "ollama",
+  modelId: "llama3.1:8b",
+  temperature: 0.4,
+  maxTokens: 512,
+  style: "concise" as "concise" | "balanced" | "verbose",
+  language: "de" as "de" | "en",
+  safety: "strict" as "strict" | "balanced" | "open",
+  streaming: true,
+  fallbackProviderId: "lovable-ai",
+  fallbackModelId: "google/gemini-3-flash-preview",
+};
+
+export const MODULE_MODEL_ASSIGNMENTS: { module: string; pet: string; providerId: string; modelId: string; purpose: string }[] = [
+  { module: "Decision Core", pet: "Corey", providerId: "ollama", modelId: "qwen2.5:14b", purpose: "Markt-Narrativ" },
+  { module: "Risk Engine", pet: "Shieldy", providerId: "ollama", modelId: "llama3.1:8b", purpose: "Risk-Erklärungen" },
+  { module: "CandleSight", pet: "Wick", providerId: "lovable-ai", modelId: "google/gemini-3-flash-preview", purpose: "Pressure-Commentary" },
+  { module: "Battle Arena", pet: "Sparky", providerId: "lovable-ai", modelId: "google/gemini-2.5-pro", purpose: "Bot-Debatten Synthese" },
+  { module: "Nightly Governor", pet: "Luna", providerId: "ollama", modelId: "llama3.1:70b", purpose: "Nightly Reports" },
+  { module: "Hermes Sensor", pet: "Hermes", providerId: "ollama", modelId: "mistral:7b", purpose: "Risk-On/Off Hinweise" },
+  { module: "RunnerScout", pet: "Rocket", providerId: "ollama", modelId: "llama3.1:8b", purpose: "Runner-Notizen" },
+  { module: "MFE0Guard", pet: "Spike", providerId: "lovable-ai", modelId: "openai/gpt-5-mini", purpose: "MFE0-Warnungen" },
+];
+
+export const LLM_USAGE_STATS = {
+  promptsToday: 1284,
+  tokensToday: 412_300,
+  costToday: 0.34,
+  fallbacks: 7,
+  avgLatencyMs: 234,
+  cacheHitRate: 41.2,
+};
+
 export const SETTINGS_VIEW = [
   { label: "Governor mode", value: "propose_only" },
   { label: "AutoApply", value: "OFF" },
