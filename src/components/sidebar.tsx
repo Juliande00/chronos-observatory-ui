@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, BrainCircuit, LineChart, Stethoscope, Moon,
-  Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles,
+  Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles, CandlestickChart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,7 @@ export const NAV_ITEMS = [
   { to: "/", label: "Mission Control", icon: LayoutDashboard },
   { to: "/brain", label: "System Brain", icon: BrainCircuit },
   { to: "/trades", label: "Live Trades", icon: LineChart },
+  { to: "/chart", label: "Paper Trading", icon: CandlestickChart },
   { to: "/treatment", label: "Trade Treatment", icon: Stethoscope },
   { to: "/governor", label: "Nightly Governor", icon: Moon },
   { to: "/candlesight", label: "CandleSight", icon: Flame },
