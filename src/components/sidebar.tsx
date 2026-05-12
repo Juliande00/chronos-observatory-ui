@@ -65,9 +65,9 @@ export function Sidebar() {
 
 const MOBILE_TABS = [
   { to: "/", label: "Home", icon: LayoutDashboard },
+  { to: "/chart", label: "Chart", icon: CandlestickChart },
   { to: "/trades", label: "Trades", icon: LineChart },
   { to: "/brain", label: "Brain", icon: BrainCircuit },
-  { to: "/governor", label: "Learning", icon: Moon },
   { to: "/risk", label: "Risk", icon: Wallet },
 ];
 
