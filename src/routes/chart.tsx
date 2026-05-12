@@ -120,7 +120,7 @@ function ChartPage() {
     setPositions((open) => {
       const p = open.find((x) => x.id === id); if (!p) return open;
       const pnl = (p.side === "LONG" ? price - p.entry : p.entry - price) * p.size;
-      setClosed((c) => [{ ...p, exit: price, pnl, closedAt: Date.now(), reason: "manual" }, ...c].slice(0, 20));
+      setClosed((c) => [{ ...p, exit: price, pnl, closedAt: Date.now(), reason: "manual" as const }, ...c].slice(0, 20));
       return open.filter((x) => x.id !== id);
     });
   }
