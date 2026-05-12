@@ -57,6 +57,13 @@ function TradesPage() {
 
 function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
   const isWin = t.pnl >= 0;
+  const lo = Math.min(t.sl, t.tp);
+  const hi = Math.max(t.sl, t.tp);
+  const pct = Math.max(0, Math.min(1, (t.current - lo) / (hi - lo)));
+  const entryPct = Math.max(0, Math.min(1, (t.entry - lo) / (hi - lo)));
+  const slLeft = t.side === "LONG";
+  const curPos = (slLeft ? pct : 1 - pct) * 100;
+  const entryPos = (slLeft ? entryPct : 1 - entryPct) * 100;
   return (
     <GlassCard className="space-y-4">
       <div className="flex items-start justify-between gap-3">
@@ -65,6 +72,10 @@ function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
             <h3 className="text-lg font-semibold">{t.symbol}</h3>
             <StatusBadge tone={t.side === "LONG" ? "success" : "danger"}>{t.side}</StatusBadge>
             <StatusBadge tone="muted">{t.strategy}</StatusBadge>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-success/60 anim-ping-ring" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+            </span>
           </div>
           <p className="mt-0.5 text-xs text-muted-foreground">Entry ${t.entry} → ${t.current} · {t.hold}</p>
         </div>
@@ -73,6 +84,36 @@ function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
             {isWin ? "+" : ""}${t.pnl.toFixed(2)}
           </div>
           <div className="text-xs text-muted-foreground">R {t.r.toFixed(2)} · max {t.maxR.toFixed(2)}</div>
+        </div>
+      </div>
+
+      {/* SL / Entry / TP risk track */}
+      <div>
+        <div className="mb-1.5 flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
+          <span className="text-destructive/80">SL ${t.sl}</span>
+          <span>Risk Track</span>
+          <span className="text-success/80">TP ${t.tp}</span>
+        </div>
+        <div className="relative h-2 overflow-hidden rounded-full border border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_70%)]">
+          <div
+            className="absolute inset-y-0 left-0"
+            style={{
+              width: `${curPos}%`,
+              background: isWin ? "var(--gradient-success)" : "var(--gradient-danger)",
+              opacity: 0.85,
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 anim-scan bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <div
+            className="absolute top-1/2 h-3 w-px -translate-y-1/2 bg-foreground/60"
+            style={{ left: `${entryPos}%` }}
+            title="Entry"
+          />
+          <div
+            className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background bg-primary shadow-[var(--shadow-glow-primary)]"
+            style={{ left: `${curPos}%` }}
+            title="Current"
+          />
         </div>
       </div>
 
@@ -108,26 +149,34 @@ function TradeCard({ t }: { t: typeof OPEN_TRADES[number] }) {
 }
 
 function Journey({ t }: { t: typeof OPEN_TRADES[number] }) {
+  const activeIdx = STEPS.findIndex((s) => s.id === "position");
   return (
     <ol className="relative space-y-2">
-      {/* vertical connector line */}
       <div className="pointer-events-none absolute left-[14px] top-2 bottom-2 w-px bg-gradient-to-b from-[var(--glass-border)] via-[var(--glass-border)] to-transparent" />
       {STEPS.map((s, i) => {
         const tone = stepTone(t, i, s);
+        const isActive = i === activeIdx;
         return (
           <li key={s.id} className="relative flex items-start gap-3">
             <span className={cn(
               "relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border",
               toneCls(tone),
             )}>
+              {isActive && <span className="absolute inset-0 rounded-full border-2 border-primary anim-ping-ring" />}
               <StepIcon tone={tone} />
             </span>
-            <div className="flex min-w-0 flex-1 items-center justify-between gap-2 rounded-lg border border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_50%)] px-2.5 py-1.5">
+            <div className={cn(
+              "flex min-w-0 flex-1 items-center justify-between gap-2 rounded-lg border px-2.5 py-1.5",
+              isActive
+                ? "border-primary/40 bg-primary/10 shadow-[var(--shadow-glow-primary)]"
+                : "border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_50%)]",
+            )}>
               <div className="flex min-w-0 items-center gap-2">
                 <span className="text-muted-foreground">{s.icon}</span>
                 <span className="truncate text-xs font-medium">{s.label}</span>
                 {s.pet && <PetIcon id={s.pet} size={20} halo={false} />}
                 {s.shadow && <span className="rounded-full border border-warning/30 bg-warning/10 px-1.5 py-0 text-[9px] text-warning">shadow</span>}
+                {isActive && <span className="rounded-full border border-primary/40 bg-primary/15 px-1.5 py-0 text-[9px] font-semibold uppercase text-primary">live</span>}
               </div>
               <span className={cn("text-[10px] font-medium uppercase tracking-wider", toneText(tone))}>
                 {toneLabel(tone)}
