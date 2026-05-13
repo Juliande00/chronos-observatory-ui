@@ -2,21 +2,25 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, BrainCircuit, LineChart, Stethoscope, Moon,
   Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles, CandlestickChart,
+  ShieldCheck, Database, Fish,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const NAV_ITEMS = [
-  { to: "/", label: "Mission Control", icon: LayoutDashboard },
-  { to: "/brain", label: "System Brain", icon: BrainCircuit },
-  { to: "/trades", label: "Live Trades", icon: LineChart },
-  { to: "/chart", label: "Paper Trading", icon: CandlestickChart },
-  { to: "/treatment", label: "Trade Treatment", icon: Stethoscope },
-  { to: "/governor", label: "Nightly Governor", icon: Moon },
-  { to: "/candlesight", label: "CandleSight", icon: Flame },
-  { to: "/arena", label: "Battle Arena", icon: Swords },
-  { to: "/hermes", label: "Hermes / XGBoost", icon: Compass },
-  { to: "/risk", label: "Balance & Risk", icon: Wallet },
+  { to: "/", label: "Overview", icon: LayoutDashboard },
+  { to: "/operator", label: "Operator", icon: ShieldCheck },
+  { to: "/risk", label: "Risk", icon: Wallet },
+  { to: "/trades", label: "Trades", icon: LineChart },
+  { to: "/chart", label: "Chart", icon: CandlestickChart },
   { to: "/reports", label: "Reports", icon: FileText },
+  { to: "/arena", label: "Battle Arena", icon: Swords },
+  { to: "/brain", label: "Brain", icon: BrainCircuit },
+  { to: "/candlesight", label: "CandleSight", icon: Flame },
+  { to: "/governor", label: "Governor", icon: Moon },
+  { to: "/hermes", label: "Hermes", icon: Compass },
+  { to: "/memory", label: "Memory", icon: Database },
+  { to: "/treatment", label: "Trade Treatment", icon: Stethoscope },
+  { to: "/mirofish", label: "MiroFish", icon: Fish },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -29,11 +33,11 @@ export function Sidebar() {
           <Sparkles className="h-4.5 w-4.5 text-primary-foreground" />
         </div>
         <div className="leading-tight">
-          <div className="text-sm font-semibold tracking-tight">ClaudeTrader</div>
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Mission Control</div>
+          <div className="text-sm font-semibold tracking-tight">OmniTrader</div>
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Dashboard v1.1</div>
         </div>
       </div>
-      <nav className="flex flex-col gap-0.5">
+      <nav className="flex flex-col gap-0.5 overflow-y-auto pr-1">
         {NAV_ITEMS.map((item) => {
           const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
           const Icon = item.icon;
@@ -55,9 +59,27 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="mt-auto rounded-xl border border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_60%)] p-3 text-xs text-muted-foreground">
-        <div className="font-medium text-foreground">Visual prototype</div>
-        Mock data · keine Live-Order
+      <div className="mt-auto rounded-xl border border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_60%)] p-3 text-[11px] text-muted-foreground space-y-1">
+        <div className="flex items-center justify-between">
+          <span>OmniTrader</span>
+          <span className="inline-flex items-center gap-1 text-success">
+            <span className="h-1.5 w-1.5 rounded-full bg-success" />Online
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span>ClaudeTrader</span>
+          <span className="inline-flex items-center gap-1 text-success">
+            <span className="h-1.5 w-1.5 rounded-full bg-success" />Connected
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span>Last Sync</span>
+          <span className="tabular-nums">vor 14s</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span>Mode</span>
+          <span className="text-warning">Read-only</span>
+        </div>
       </div>
     </aside>
   );
@@ -65,9 +87,9 @@ export function Sidebar() {
 
 const MOBILE_TABS = [
   { to: "/", label: "Home", icon: LayoutDashboard },
-  { to: "/chart", label: "Chart", icon: CandlestickChart },
+  { to: "/operator", label: "Operator", icon: ShieldCheck },
   { to: "/trades", label: "Trades", icon: LineChart },
-  { to: "/brain", label: "Brain", icon: BrainCircuit },
+  { to: "/mirofish", label: "MiroFish", icon: Fish },
   { to: "/risk", label: "Risk", icon: Wallet },
 ];
 
@@ -103,9 +125,9 @@ export function MobileHeader() {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--gradient-primary)]">
           <Sparkles className="h-4 w-4 text-primary-foreground" />
         </div>
-        <div className="text-sm font-semibold">ClaudeTrader</div>
+        <div className="text-sm font-semibold">OmniTrader v1.1</div>
       </div>
-      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Mission Control</span>
+      <span className="text-[10px] uppercase tracking-wider text-success">Online</span>
     </header>
   );
 }
