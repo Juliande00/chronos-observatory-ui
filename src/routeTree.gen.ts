@@ -15,6 +15,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as OperatorRouteImport } from './routes/operator'
+import { Route as MirofishRouteImport } from './routes/mirofish'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HermesRouteImport } from './routes/hermes'
@@ -53,6 +54,11 @@ const ReportsRoute = ReportsRouteImport.update({
 const OperatorRoute = OperatorRouteImport.update({
   id: '/operator',
   path: '/operator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MirofishRoute = MirofishRouteImport.update({
+  id: '/mirofish',
+  path: '/mirofish',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MemoryRoute = MemoryRouteImport.update({
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
+  '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
+  '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
+  '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/hermes'
     | '/login'
     | '/memory'
+    | '/mirofish'
     | '/operator'
     | '/reports'
     | '/risk'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/hermes'
     | '/login'
     | '/memory'
+    | '/mirofish'
     | '/operator'
     | '/reports'
     | '/risk'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/hermes'
     | '/login'
     | '/memory'
+    | '/mirofish'
     | '/operator'
     | '/reports'
     | '/risk'
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   HermesRoute: typeof HermesRoute
   LoginRoute: typeof LoginRoute
   MemoryRoute: typeof MemoryRoute
+  MirofishRoute: typeof MirofishRoute
   OperatorRoute: typeof OperatorRoute
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/operator'
       fullPath: '/operator'
       preLoaderRoute: typeof OperatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mirofish': {
+      id: '/mirofish'
+      path: '/mirofish'
+      fullPath: '/mirofish'
+      preLoaderRoute: typeof MirofishRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/memory': {
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   HermesRoute: HermesRoute,
   LoginRoute: LoginRoute,
   MemoryRoute: MemoryRoute,
+  MirofishRoute: MirofishRoute,
   OperatorRoute: OperatorRoute,
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
