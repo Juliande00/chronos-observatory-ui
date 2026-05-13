@@ -14,6 +14,9 @@ import { Route as TradesRouteImport } from './routes/trades'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as OperatorRouteImport } from './routes/operator'
+import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as HermesRouteImport } from './routes/hermes'
 import { Route as GovernorRouteImport } from './routes/governor'
 import { Route as ChartRouteImport } from './routes/chart'
@@ -45,6 +48,21 @@ const RiskRoute = RiskRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperatorRoute = OperatorRouteImport.update({
+  id: '/operator',
+  path: '/operator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoryRoute = MemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HermesRoute = HermesRouteImport.update({
@@ -91,6 +109,9 @@ export interface FileRoutesByFullPath {
   '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
+  '/login': typeof LoginRoute
+  '/memory': typeof MemoryRoute
+  '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -105,6 +126,9 @@ export interface FileRoutesByTo {
   '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
+  '/login': typeof LoginRoute
+  '/memory': typeof MemoryRoute
+  '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -120,6 +144,9 @@ export interface FileRoutesById {
   '/chart': typeof ChartRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
+  '/login': typeof LoginRoute
+  '/memory': typeof MemoryRoute
+  '/operator': typeof OperatorRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -136,6 +163,9 @@ export interface FileRouteTypes {
     | '/chart'
     | '/governor'
     | '/hermes'
+    | '/login'
+    | '/memory'
+    | '/operator'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -150,6 +180,9 @@ export interface FileRouteTypes {
     | '/chart'
     | '/governor'
     | '/hermes'
+    | '/login'
+    | '/memory'
+    | '/operator'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -164,6 +197,9 @@ export interface FileRouteTypes {
     | '/chart'
     | '/governor'
     | '/hermes'
+    | '/login'
+    | '/memory'
+    | '/operator'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -179,6 +215,9 @@ export interface RootRouteChildren {
   ChartRoute: typeof ChartRoute
   GovernorRoute: typeof GovernorRoute
   HermesRoute: typeof HermesRoute
+  LoginRoute: typeof LoginRoute
+  MemoryRoute: typeof MemoryRoute
+  OperatorRoute: typeof OperatorRoute
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
   SettingsRoute: typeof SettingsRoute
@@ -221,6 +260,27 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operator': {
+      id: '/operator'
+      path: '/operator'
+      fullPath: '/operator'
+      preLoaderRoute: typeof OperatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hermes': {
@@ -283,6 +343,9 @@ const rootRouteChildren: RootRouteChildren = {
   ChartRoute: ChartRoute,
   GovernorRoute: GovernorRoute,
   HermesRoute: HermesRoute,
+  LoginRoute: LoginRoute,
+  MemoryRoute: MemoryRoute,
+  OperatorRoute: OperatorRoute,
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
   SettingsRoute: SettingsRoute,
