@@ -26,86 +26,22 @@ import { Route as BrainRouteImport } from './routes/brain'
 import { Route as ArenaRouteImport } from './routes/arena'
 import { Route as IndexRouteImport } from './routes/index'
 
-const TreatmentRoute = TreatmentRouteImport.update({
-  id: '/treatment',
-  path: '/treatment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TradesRoute = TradesRouteImport.update({
-  id: '/trades',
-  path: '/trades',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RiskRoute = RiskRouteImport.update({
-  id: '/risk',
-  path: '/risk',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OperatorRoute = OperatorRouteImport.update({
-  id: '/operator',
-  path: '/operator',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MirofishRoute = MirofishRouteImport.update({
-  id: '/mirofish',
-  path: '/mirofish',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MemoryRoute = MemoryRouteImport.update({
-  id: '/memory',
-  path: '/memory',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HermesRoute = HermesRouteImport.update({
-  id: '/hermes',
-  path: '/hermes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GovernorRoute = GovernorRouteImport.update({
-  id: '/governor',
-  path: '/governor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChartRoute = ChartRouteImport.update({
-  id: '/chart',
-  path: '/chart',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CandlesightRoute = CandlesightRouteImport.update({
-  id: '/candlesight',
-  path: '/candlesight',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BrainRoute = BrainRouteImport.update({
-  id: '/brain',
-  path: '/brain',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArenaRoute = ArenaRouteImport.update({
-  id: '/arena',
-  path: '/arena',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const TreatmentRoute = TreatmentRouteImport.update({ id: '/treatment', path: '/treatment', getParentRoute: () => rootRouteImport } as any)
+const TradesRoute = TradesRouteImport.update({ id: '/trades', path: '/trades', getParentRoute: () => rootRouteImport } as any)
+const SettingsRoute = SettingsRouteImport.update({ id: '/settings', path: '/settings', getParentRoute: () => rootRouteImport } as any)
+const RiskRoute = RiskRouteImport.update({ id: '/risk', path: '/risk', getParentRoute: () => rootRouteImport } as any)
+const ReportsRoute = ReportsRouteImport.update({ id: '/reports', path: '/reports', getParentRoute: () => rootRouteImport } as any)
+const OperatorRoute = OperatorRouteImport.update({ id: '/operator', path: '/operator', getParentRoute: () => rootRouteImport } as any)
+const MirofishRoute = MirofishRouteImport.update({ id: '/mirofish', path: '/mirofish', getParentRoute: () => rootRouteImport } as any)
+const MemoryRoute = MemoryRouteImport.update({ id: '/memory', path: '/memory', getParentRoute: () => rootRouteImport } as any)
+const LoginRoute = LoginRouteImport.update({ id: '/login', path: '/login', getParentRoute: () => rootRouteImport } as any)
+const HermesRoute = HermesRouteImport.update({ id: '/hermes', path: '/hermes', getParentRoute: () => rootRouteImport } as any)
+const GovernorRoute = GovernorRouteImport.update({ id: '/governor', path: '/governor', getParentRoute: () => rootRouteImport } as any)
+const ChartRoute = ChartRouteImport.update({ id: '/chart', path: '/chart', getParentRoute: () => rootRouteImport } as any)
+const CandlesightRoute = CandlesightRouteImport.update({ id: '/candlesight', path: '/candlesight', getParentRoute: () => rootRouteImport } as any)
+const BrainRoute = BrainRouteImport.update({ id: '/brain', path: '/brain', getParentRoute: () => rootRouteImport } as any)
+const ArenaRoute = ArenaRouteImport.update({ id: '/arena', path: '/arena', getParentRoute: () => rootRouteImport } as any)
+const IndexRoute = IndexRouteImport.update({ id: '/', path: '/', getParentRoute: () => rootRouteImport } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -165,58 +101,18 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/arena'
-    | '/brain'
-    | '/candlesight'
-    | '/chart'
-    | '/governor'
-    | '/hermes'
-    | '/login'
-    | '/memory'
-    | '/mirofish'
-    | '/operator'
-    | '/reports'
-    | '/risk'
-    | '/settings'
-    | '/trades'
-    | '/treatment'
+    | '/' | '/arena' | '/brain' | '/candlesight' | '/chart' | '/governor' | '/hermes'
+    | '/login' | '/memory' | '/mirofish' | '/operator'
+    | '/reports' | '/risk' | '/settings' | '/trades' | '/treatment'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/arena'
-    | '/brain'
-    | '/candlesight'
-    | '/chart'
-    | '/governor'
-    | '/hermes'
-    | '/login'
-    | '/memory'
-    | '/mirofish'
-    | '/operator'
-    | '/reports'
-    | '/risk'
-    | '/settings'
-    | '/trades'
-    | '/treatment'
+    | '/' | '/arena' | '/brain' | '/candlesight' | '/chart' | '/governor' | '/hermes'
+    | '/login' | '/memory' | '/mirofish' | '/operator'
+    | '/reports' | '/risk' | '/settings' | '/trades' | '/treatment'
   id:
-    | '__root__'
-    | '/'
-    | '/arena'
-    | '/brain'
-    | '/candlesight'
-    | '/chart'
-    | '/governor'
-    | '/hermes'
-    | '/login'
-    | '/memory'
-    | '/mirofish'
-    | '/operator'
-    | '/reports'
-    | '/risk'
-    | '/settings'
-    | '/trades'
-    | '/treatment'
+    | '__root__' | '/' | '/arena' | '/brain' | '/candlesight' | '/chart' | '/governor' | '/hermes'
+    | '/login' | '/memory' | '/mirofish' | '/operator'
+    | '/reports' | '/risk' | '/settings' | '/trades' | '/treatment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -240,139 +136,40 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/treatment': {
-      id: '/treatment'
-      path: '/treatment'
-      fullPath: '/treatment'
-      preLoaderRoute: typeof TreatmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/trades': {
-      id: '/trades'
-      path: '/trades'
-      fullPath: '/trades'
-      preLoaderRoute: typeof TradesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/risk': {
-      id: '/risk'
-      path: '/risk'
-      fullPath: '/risk'
-      preLoaderRoute: typeof RiskRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/operator': {
-      id: '/operator'
-      path: '/operator'
-      fullPath: '/operator'
-      preLoaderRoute: typeof OperatorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mirofish': {
-      id: '/mirofish'
-      path: '/mirofish'
-      fullPath: '/mirofish'
-      preLoaderRoute: typeof MirofishRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/memory': {
-      id: '/memory'
-      path: '/memory'
-      fullPath: '/memory'
-      preLoaderRoute: typeof MemoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hermes': {
-      id: '/hermes'
-      path: '/hermes'
-      fullPath: '/hermes'
-      preLoaderRoute: typeof HermesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/governor': {
-      id: '/governor'
-      path: '/governor'
-      fullPath: '/governor'
-      preLoaderRoute: typeof GovernorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chart': {
-      id: '/chart'
-      path: '/chart'
-      fullPath: '/chart'
-      preLoaderRoute: typeof ChartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/candlesight': {
-      id: '/candlesight'
-      path: '/candlesight'
-      fullPath: '/candlesight'
-      preLoaderRoute: typeof CandlesightRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/brain': {
-      id: '/brain'
-      path: '/brain'
-      fullPath: '/brain'
-      preLoaderRoute: typeof BrainRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/arena': {
-      id: '/arena'
-      path: '/arena'
-      fullPath: '/arena'
-      preLoaderRoute: typeof ArenaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    '/treatment': { id: '/treatment'; path: '/treatment'; fullPath: '/treatment'; preLoaderRoute: typeof TreatmentRouteImport; parentRoute: typeof rootRouteImport }
+    '/trades': { id: '/trades'; path: '/trades'; fullPath: '/trades'; preLoaderRoute: typeof TradesRouteImport; parentRoute: typeof rootRouteImport }
+    '/settings': { id: '/settings'; path: '/settings'; fullPath: '/settings'; preLoaderRoute: typeof SettingsRouteImport; parentRoute: typeof rootRouteImport }
+    '/risk': { id: '/risk'; path: '/risk'; fullPath: '/risk'; preLoaderRoute: typeof RiskRouteImport; parentRoute: typeof rootRouteImport }
+    '/reports': { id: '/reports'; path: '/reports'; fullPath: '/reports'; preLoaderRoute: typeof ReportsRouteImport; parentRoute: typeof rootRouteImport }
+    '/operator': { id: '/operator'; path: '/operator'; fullPath: '/operator'; preLoaderRoute: typeof OperatorRouteImport; parentRoute: typeof rootRouteImport }
+    '/mirofish': { id: '/mirofish'; path: '/mirofish'; fullPath: '/mirofish'; preLoaderRoute: typeof MirofishRouteImport; parentRoute: typeof rootRouteImport }
+    '/memory': { id: '/memory'; path: '/memory'; fullPath: '/memory'; preLoaderRoute: typeof MemoryRouteImport; parentRoute: typeof rootRouteImport }
+    '/login': { id: '/login'; path: '/login'; fullPath: '/login'; preLoaderRoute: typeof LoginRouteImport; parentRoute: typeof rootRouteImport }
+    '/hermes': { id: '/hermes'; path: '/hermes'; fullPath: '/hermes'; preLoaderRoute: typeof HermesRouteImport; parentRoute: typeof rootRouteImport }
+    '/governor': { id: '/governor'; path: '/governor'; fullPath: '/governor'; preLoaderRoute: typeof GovernorRouteImport; parentRoute: typeof rootRouteImport }
+    '/chart': { id: '/chart'; path: '/chart'; fullPath: '/chart'; preLoaderRoute: typeof ChartRouteImport; parentRoute: typeof rootRouteImport }
+    '/candlesight': { id: '/candlesight'; path: '/candlesight'; fullPath: '/candlesight'; preLoaderRoute: typeof CandlesightRouteImport; parentRoute: typeof rootRouteImport }
+    '/brain': { id: '/brain'; path: '/brain'; fullPath: '/brain'; preLoaderRoute: typeof BrainRouteImport; parentRoute: typeof rootRouteImport }
+    '/arena': { id: '/arena'; path: '/arena'; fullPath: '/arena'; preLoaderRoute: typeof ArenaRouteImport; parentRoute: typeof rootRouteImport }
+    '/': { id: '/'; path: '/'; fullPath: '/'; preLoaderRoute: typeof IndexRouteImport; parentRoute: typeof rootRouteImport }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ArenaRoute: ArenaRoute,
-  BrainRoute: BrainRoute,
-  CandlesightRoute: CandlesightRoute,
-  ChartRoute: ChartRoute,
-  GovernorRoute: GovernorRoute,
-  HermesRoute: HermesRoute,
-  LoginRoute: LoginRoute,
-  MemoryRoute: MemoryRoute,
-  MirofishRoute: MirofishRoute,
-  OperatorRoute: OperatorRoute,
-  ReportsRoute: ReportsRoute,
-  RiskRoute: RiskRoute,
-  SettingsRoute: SettingsRoute,
-  TradesRoute: TradesRoute,
-  TreatmentRoute: TreatmentRoute,
+  IndexRoute, ArenaRoute, BrainRoute, CandlesightRoute, ChartRoute, GovernorRoute, HermesRoute,
+  LoginRoute, MemoryRoute, MirofishRoute, OperatorRoute,
+  ReportsRoute, RiskRoute, SettingsRoute, TradesRoute, TreatmentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
