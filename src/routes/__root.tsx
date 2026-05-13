@@ -53,8 +53,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ClaudeTrader · Mission Control" },
-      { name: "description", content: "Premium dark-mode AI trading command center prototype." },
+      { title: "OmniTrader Dashboard v1.1" },
+      { name: "description", content: "Professional dark-mode trading observability and review center." },
       { name: "theme-color", content: "#0b1220" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
