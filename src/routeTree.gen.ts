@@ -14,6 +14,7 @@ import { Route as TradesRouteImport } from './routes/trades'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PulseRouteImport } from './routes/pulse'
 import { Route as OperatorRouteImport } from './routes/operator'
 import { Route as MirofishRouteImport } from './routes/mirofish'
 import { Route as MemoryRouteImport } from './routes/memory'
@@ -49,6 +50,11 @@ const RiskRoute = RiskRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PulseRoute = PulseRouteImport.update({
+  id: '/pulse',
+  path: '/pulse',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OperatorRoute = OperatorRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/memory': typeof MemoryRoute
   '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
+  '/pulse': typeof PulseRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
+  '/pulse': typeof PulseRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/memory': typeof MemoryRoute
   '/mirofish': typeof MirofishRoute
   '/operator': typeof OperatorRoute
+  '/pulse': typeof PulseRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/mirofish'
     | '/operator'
+    | '/pulse'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/mirofish'
     | '/operator'
+    | '/pulse'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/mirofish'
     | '/operator'
+    | '/pulse'
     | '/reports'
     | '/risk'
     | '/settings'
@@ -231,6 +243,7 @@ export interface RootRouteChildren {
   MemoryRoute: typeof MemoryRoute
   MirofishRoute: typeof MirofishRoute
   OperatorRoute: typeof OperatorRoute
+  PulseRoute: typeof PulseRoute
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
   SettingsRoute: typeof SettingsRoute
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pulse': {
+      id: '/pulse'
+      path: '/pulse'
+      fullPath: '/pulse'
+      preLoaderRoute: typeof PulseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/operator': {
@@ -367,6 +387,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoryRoute: MemoryRoute,
   MirofishRoute: MirofishRoute,
   OperatorRoute: OperatorRoute,
+  PulseRoute: PulseRoute,
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
   SettingsRoute: SettingsRoute,
