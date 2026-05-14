@@ -126,11 +126,8 @@ function PulsePage() {
     <div className="mx-auto max-w-7xl space-y-6">
       <PageHeader
         title="Live System Pulse"
-        subtitle="Echtzeit-Eventstream aller Module — Read-only Beobachtung."
-        statuses={[
-          { label: paused ? "Paused" : "Streaming", tone: paused ? "warning" : "success" },
-          { label: `${counts.eps} eps`, tone: "info" },
-        ]}
+        subtitle={`Echtzeit-Eventstream aller Module — ${paused ? "Pausiert" : `${counts.eps} eps`} · Read-only.`}
+        status={paused ? "WARN" : "ONLINE"}
       />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5">
