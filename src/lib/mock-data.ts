@@ -149,6 +149,17 @@ export const OPEN_TRADES = [
   },
 ];
 
+export const CLOSED_TRADES = [
+  { id: "c1", symbol: "BTC/USDT", side: "LONG", strategy: "SMC_TJR", entry: 64120.0, exit: 64432.0, pnl: 12.40, r: 0.71, hold: "3h 18m", reason: "TP", grade: "B+", bucket: "Protected-Win", closedAt: "08:42" },
+  { id: "c2", symbol: "ETH/USDT", side: "SHORT", strategy: "TREND_RSI", entry: 3128.4, exit: 3144.8, pnl: -14.18, r: -0.92, hold: "1h 02m", reason: "SL", grade: "C", bucket: "MFE0-Loss", closedAt: "07:58" },
+  { id: "c3", symbol: "SOL/USDT", side: "LONG", strategy: "SMC_TJR", entry: 141.20, exit: 142.85, pnl: 5.62, r: 0.42, hold: "2h 45m", reason: "Time", grade: "B-", bucket: "Micro-Win", closedAt: "06:14" },
+  { id: "c4", symbol: "AVAX/USDT", side: "LONG", strategy: "SMC_TJR", entry: 38.42, exit: 39.81, pnl: 22.10, r: 1.42, hold: "4h 02m", reason: "TP", grade: "A-", bucket: "Runner-Win", closedAt: "05:48" },
+  { id: "c5", symbol: "DOGE/USDT", side: "SHORT", strategy: "TREND_RSI", entry: 0.1622, exit: 0.1641, pnl: -8.92, r: -0.6, hold: "55m", reason: "SL", grade: "C+", bucket: "Plus-to-Minus", closedAt: "04:22" },
+  { id: "c6", symbol: "ADA/USDT", side: "LONG", strategy: "SMC_TJR", entry: 0.4612, exit: 0.4694, pnl: 3.84, r: 0.31, hold: "1h 41m", reason: "TP", grade: "B", bucket: "Micro-Win", closedAt: "03:10" },
+  { id: "c7", symbol: "MATIC/USDT", side: "SHORT", strategy: "TREND_RSI", entry: 0.7240, exit: 0.7188, pnl: 6.71, r: 0.55, hold: "2h 04m", reason: "TP", grade: "B", bucket: "Micro-Win", closedAt: "02:48" },
+  { id: "c8", symbol: "LINK/USDT", side: "LONG", strategy: "SMC_TJR", entry: 14.82, exit: 14.41, pnl: -18.40, r: -1.10, hold: "38m", reason: "SL", grade: "D", bucket: "MFE0-Loss", closedAt: "01:32" },
+];
+
 export const TREATMENT_BUCKETS = [
   { name: "Micro-Wins", count: 64, pnl: 184.2, avg: 2.88, pf: 1.42, exp: 0.6, severity: "info" },
   { name: "Runner-Wins", count: 12, pnl: 412.8, avg: 34.4, pf: 4.21, exp: 12.4, severity: "success" },

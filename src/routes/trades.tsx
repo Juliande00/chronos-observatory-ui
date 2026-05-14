@@ -1,23 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GlassCard, SectionTitle } from "@/components/glass-card";
+import { GlassCard } from "@/components/glass-card";
 import { StatusBadge } from "@/components/status-badge";
+import { PageHeader } from "@/components/page-header";
+import { KpiCard } from "@/components/kpi-card";
 import { PetIcon } from "@/components/pet-icon";
-import { OPEN_TRADES } from "@/lib/mock-data";
-import { CheckCircle2, AlertTriangle, Circle, XCircle, Database, Activity, Brain, Swords, Compass, Flame, Stethoscope, ShieldAlert, LogIn, Briefcase, Eye, Moon } from "lucide-react";
+import { OPEN_TRADES, CLOSED_TRADES } from "@/lib/mock-data";
+import { CheckCircle2, AlertTriangle, Circle, XCircle, Database, Activity, Brain, Swords, Compass, Flame, Stethoscope, ShieldAlert, LogIn, Briefcase, Eye, Moon, TrendingUp, TrendingDown, Briefcase as BriefIcon, Percent, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/trades")({
-  head: () => ({ meta: [{ title: "Live Trades · ClaudeTrader" }, { name: "description", content: "Offene Trades, Trade Journey und Closed-Übersicht." }] }),
+  head: () => ({ meta: [{ title: "Live Trades · OmniTrader" }, { name: "description", content: "Offene Trades, Trade Journey und Closed-Übersicht." }] }),
   component: TradesPage,
 });
 
 type StepTone = "ok" | "warn" | "risk" | "pending" | "data" | "shadow";
-
-type Step = {
-  id: string; label: string; icon: ReactNode; pet?: string;
-  shadow?: boolean;
-};
+type Step = { id: string; label: string; icon: ReactNode; pet?: string; shadow?: boolean };
+type FilterKey = "all" | "long" | "short" | "win" | "loss";
 
 const STEPS: Step[] = [
   { id: "data", label: "Market Data", icon: <Database className="h-3.5 w-3.5" /> },
@@ -35,23 +34,193 @@ const STEPS: Step[] = [
   { id: "learn", label: "Learning", icon: <Moon className="h-3.5 w-3.5" />, pet: "luna" },
 ];
 
+type Trade = typeof OPEN_TRADES[number];
+
+function useLiveTicker(trades: Trade[]) {
+  const [prices, setPrices] = useState<Record<string, number>>(
+    () => Object.fromEntries(trades.map((t) => [t.id, t.current])),
+  );
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPrices((prev) => {
+        const next: Record<string, number> = { ...prev };
+        for (const t of trades) {
+          const cur = prev[t.id] ?? t.current;
+          const range = Math.abs(t.tp - t.sl);
+          const drift = (Math.random() - 0.5) * range * 0.012;
+          const lo = Math.min(t.sl, t.tp);
+          const hi = Math.max(t.sl, t.tp);
+          next[t.id] = Math.max(lo, Math.min(hi, cur + drift));
+        }
+        return next;
+      });
+    }, 1500);
+    return () => clearInterval(id);
+  }, [trades]);
+  return prices;
+}
+
 function TradesPage() {
+  const [filter, setFilter] = useState<FilterKey>("all");
+  const prices = useLiveTicker(OPEN_TRADES);
+
+  const enriched = useMemo(
+    () => OPEN_TRADES.map((t) => {
+      const current = prices[t.id] ?? t.current;
+      const dir = t.side === "LONG" ? 1 : -1;
+      const pnl = ((current - t.entry) / t.entry) * 1000 * dir;
+      const denom = Math.abs(t.entry - t.sl) || 1;
+      const r = ((current - t.entry) * dir) / denom;
+      return { ...t, current, pnl, r };
+    }),
+    [prices],
+  );
+
+  const filtered = enriched.filter((t) => {
+    if (filter === "long") return t.side === "LONG";
+    if (filter === "short") return t.side === "SHORT";
+    if (filter === "win") return t.pnl >= 0;
+    if (filter === "loss") return t.pnl < 0;
+    return true;
+  });
+
+  const totalPnl = enriched.reduce((s, t) => s + t.pnl, 0);
+  const totalR = enriched.reduce((s, t) => s + t.r, 0);
+  const longs = enriched.filter((t) => t.side === "LONG").length;
+  const shorts = enriched.length - longs;
+  const winning = enriched.filter((t) => t.pnl >= 0).length;
+
   return (
-    <div className="mx-auto max-w-7xl space-y-6">
-      <SectionTitle title="Live Trades" subtitle="Offene Positionen und ihr Weg durch die Module." />
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        {OPEN_TRADES.map((t) => <TradeCard key={t.id} t={t} />)}
+    <div className="relative mx-auto max-w-7xl space-y-6">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-40" />
+      <PageHeader
+        title="Live Trades"
+        subtitle="Offene Positionen, Live-Ticker und Trade Journey durch alle Module."
+        status="WARN"
+        role="Admin"
+      />
+
+      <section className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+        <KpiCard label="Open Positions" value={enriched.length} tone="info" icon={<BriefIcon className="h-4 w-4" />} />
+        <KpiCard label="Floating PnL" value={`${totalPnl >= 0 ? "+" : ""}$${totalPnl.toFixed(2)}`} tone={totalPnl >= 0 ? "success" : "danger"} icon={totalPnl >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />} />
+        <KpiCard label="Total R" value={`${totalR >= 0 ? "+" : ""}${totalR.toFixed(2)}R`} tone={totalR >= 0 ? "success" : "warning"} icon={<Activity className="h-4 w-4" />} />
+        <KpiCard label="Long / Short" value={`${longs} / ${shorts}`} tone="muted" />
+        <KpiCard label="Winning" value={`${winning}/${enriched.length}`} tone={winning >= enriched.length / 2 ? "success" : "warning"} icon={<Percent className="h-4 w-4" />} />
+      </section>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground">
+          <Filter className="h-3.5 w-3.5" /> Filter
+        </span>
+        {(["all", "long", "short", "win", "loss"] as FilterKey[]).map((k) => (
+          <button
+            key={k}
+            onClick={() => setFilter(k)}
+            className={cn(
+              "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+              filter === k
+                ? "border-primary/40 bg-primary/15 text-primary shadow-[var(--shadow-glow-primary)]"
+                : "border-[var(--glass-border)] bg-[oklch(0.20_0.04_265_/_60%)] text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {k === "all" ? "Alle" : k === "long" ? "LONG" : k === "short" ? "SHORT" : k === "win" ? "Im Plus" : "Im Minus"}
+          </button>
+        ))}
+        <span className="ml-auto inline-flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-success/60 anim-ping-ring" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+          </span>
+          Live-Ticker · Mock · 1.5s
+        </span>
       </div>
-      <GlassCard>
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold">Letzter geschlossener Trade</h3>
-          <StatusBadge tone="success" dot>+$12.40</StatusBadge>
-        </div>
-        <p className="mt-2 text-sm text-muted-foreground">BTC/USDT · LONG · SMC_TJR · gehalten 3h 18m · Exit Grade B+ · Retained Profit 71%.</p>
-        <p className="mt-1 text-xs text-muted-foreground">Learning: Treatment-Klasse "Protected-Win" bestätigt.</p>
-      </GlassCard>
-      <p className="text-center text-xs text-muted-foreground">Shadow-Module erklären nur und greifen nicht live ein.</p>
+
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        {filtered.map((t) => <TradeCard key={t.id} t={t} />)}
+        {filtered.length === 0 && (
+          <GlassCard className="text-center text-sm text-muted-foreground xl:col-span-2">
+            Keine Trades passen zum Filter.
+          </GlassCard>
+        )}
+      </div>
+
+      <ClosedTradesTable />
+
+      <p className="text-center text-xs text-muted-foreground">Shadow-Module erklären nur und greifen nicht live ein. Alle Preise sind simuliert.</p>
     </div>
+  );
+}
+
+function ClosedTradesTable() {
+  const wins = CLOSED_TRADES.filter((t) => t.pnl >= 0).length;
+  const totalPnl = CLOSED_TRADES.reduce((s, t) => s + t.pnl, 0);
+  return (
+    <GlassCard className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h3 className="text-base font-semibold">Closed Trades · Heute</h3>
+          <p className="text-xs text-muted-foreground">{CLOSED_TRADES.length} Trades · Winrate {Math.round((wins / CLOSED_TRADES.length) * 100)}%</p>
+        </div>
+        <StatusBadge tone={totalPnl >= 0 ? "success" : "danger"} dot>
+          {totalPnl >= 0 ? "+" : ""}${totalPnl.toFixed(2)} Realized
+        </StatusBadge>
+      </div>
+      <div className="-mx-4 overflow-x-auto sm:mx-0">
+        <table className="w-full min-w-[640px] text-xs">
+          <thead className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            <tr className="border-b border-[var(--glass-border)]">
+              <th className="px-3 py-2 text-left font-medium">Zeit</th>
+              <th className="px-3 py-2 text-left font-medium">Symbol</th>
+              <th className="px-3 py-2 text-left font-medium">Side</th>
+              <th className="px-3 py-2 text-right font-medium">Entry → Exit</th>
+              <th className="px-3 py-2 text-right font-medium">PnL</th>
+              <th className="px-3 py-2 text-right font-medium">R</th>
+              <th className="px-3 py-2 text-left font-medium">Reason</th>
+              <th className="px-3 py-2 text-left font-medium">Bucket</th>
+              <th className="px-3 py-2 text-center font-medium">Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            {CLOSED_TRADES.map((t) => {
+              const win = t.pnl >= 0;
+              return (
+                <tr key={t.id} className="border-b border-[var(--glass-border)]/50 last:border-0 hover:bg-[oklch(0.25_0.04_265_/_40%)]">
+                  <td className="px-3 py-2 tabular-nums text-muted-foreground">{t.closedAt}</td>
+                  <td className="px-3 py-2 font-medium">{t.symbol}</td>
+                  <td className="px-3 py-2">
+                    <StatusBadge tone={t.side === "LONG" ? "success" : "danger"}>{t.side}</StatusBadge>
+                  </td>
+                  <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">
+                    {t.entry} → <span className="text-foreground">{t.exit}</span>
+                  </td>
+                  <td className={cn("px-3 py-2 text-right font-semibold tabular-nums", win ? "text-success" : "text-destructive")}>
+                    {win ? "+" : ""}${t.pnl.toFixed(2)}
+                  </td>
+                  <td className={cn("px-3 py-2 text-right tabular-nums", win ? "text-success" : "text-destructive")}>
+                    {win ? "+" : ""}{t.r.toFixed(2)}R
+                  </td>
+                  <td className="px-3 py-2">
+                    <StatusBadge tone={t.reason === "TP" ? "success" : t.reason === "SL" ? "danger" : "warning"}>{t.reason}</StatusBadge>
+                  </td>
+                  <td className="px-3 py-2 text-muted-foreground">{t.bucket}</td>
+                  <td className="px-3 py-2 text-center">
+                    <span className={cn(
+                      "inline-flex h-6 w-8 items-center justify-center rounded-md border text-[10px] font-bold",
+                      t.grade.startsWith("A") && "border-success/40 bg-success/15 text-success",
+                      t.grade.startsWith("B") && "border-info/40 bg-info/15 text-info",
+                      t.grade.startsWith("C") && "border-warning/40 bg-warning/15 text-warning",
+                      t.grade.startsWith("D") && "border-destructive/40 bg-destructive/15 text-destructive",
+                    )}>
+                      {t.grade}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </GlassCard>
   );
 }
 
