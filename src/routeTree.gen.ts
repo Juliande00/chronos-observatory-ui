@@ -22,6 +22,7 @@ import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HermesRouteImport } from './routes/hermes'
 import { Route as GovernorRouteImport } from './routes/governor'
+import { Route as ConsoleRouteImport } from './routes/console'
 import { Route as ChartRouteImport } from './routes/chart'
 import { Route as CandlesightRouteImport } from './routes/candlesight'
 import { Route as BrainRouteImport } from './routes/brain'
@@ -94,6 +95,11 @@ const GovernorRoute = GovernorRouteImport.update({
   path: '/governor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsoleRoute = ConsoleRouteImport.update({
+  id: '/console',
+  path: '/console',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChartRoute = ChartRouteImport.update({
   id: '/chart',
   path: '/chart',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   BrainRoute: typeof BrainRoute
   CandlesightRoute: typeof CandlesightRoute
   ChartRoute: typeof ChartRoute
+  ConsoleRoute: typeof ConsoleRoute
   GovernorRoute: typeof GovernorRoute
   HermesRoute: typeof HermesRoute
   LoginRoute: typeof LoginRoute
@@ -370,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/console': {
+      id: '/console'
+      path: '/console'
+      fullPath: '/console'
+      preLoaderRoute: typeof ConsoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chart': {
       id: '/chart'
       path: '/chart'
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrainRoute: BrainRoute,
   CandlesightRoute: CandlesightRoute,
   ChartRoute: ChartRoute,
+  ConsoleRoute: ConsoleRoute,
   GovernorRoute: GovernorRoute,
   HermesRoute: HermesRoute,
   LoginRoute: LoginRoute,
