@@ -2,12 +2,13 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, BrainCircuit, LineChart, Stethoscope, Moon,
   Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles, CandlestickChart,
-  ShieldCheck, Database, Fish, Activity, Bot, Terminal,
+  ShieldCheck, Database, Fish, Activity, Bot, Terminal, Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const NAV_ITEMS = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
+  { to: "/universe", label: "Universe", icon: Globe },
   { to: "/operator", label: "Operator", icon: ShieldCheck },
   { to: "/risk", label: "Risk", icon: Wallet },
   { to: "/trades", label: "Trades", icon: LineChart },
