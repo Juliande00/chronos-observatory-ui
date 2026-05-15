@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, BrainCircuit, LineChart, Stethoscope, Moon,
   Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles, CandlestickChart,
-  ShieldCheck, Database, Fish, Activity,
+  ShieldCheck, Database, Fish, Activity, Bot, Terminal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
