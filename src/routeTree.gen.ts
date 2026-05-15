@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TreatmentRouteImport } from './routes/treatment'
 import { Route as TradesRouteImport } from './routes/trades'
+import { Route as SqlAuditRouteImport } from './routes/sql-audit'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
@@ -36,6 +37,11 @@ const TreatmentRoute = TreatmentRouteImport.update({
 const TradesRoute = TradesRouteImport.update({
   id: '/trades',
   path: '/trades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SqlAuditRoute = SqlAuditRouteImport.update({
+  id: '/sql-audit',
+  path: '/sql-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   fileRoutesByTo: FileRoutesByTo
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   id:
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   fileRoutesById: FileRoutesById
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
   SettingsRoute: typeof SettingsRoute
+  SqlAuditRoute: typeof SqlAuditRoute
   TradesRoute: typeof TradesRoute
   TreatmentRoute: typeof TreatmentRoute
 }
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       path: '/trades'
       fullPath: '/trades'
       preLoaderRoute: typeof TradesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sql-audit': {
+      id: '/sql-audit'
+      path: '/sql-audit'
+      fullPath: '/sql-audit'
+      preLoaderRoute: typeof SqlAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
   SettingsRoute: SettingsRoute,
+  SqlAuditRoute: SqlAuditRoute,
   TradesRoute: TradesRoute,
   TreatmentRoute: TreatmentRoute,
 }
