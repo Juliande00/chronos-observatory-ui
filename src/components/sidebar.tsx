@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, BrainCircuit, LineChart, Stethoscope, Moon,
   Flame, Swords, Compass, Wallet, FileText, Settings, Sparkles, CandlestickChart,
-  ShieldCheck, Database, Fish, Activity,
+  ShieldCheck, Database, Fish, Activity, Bot, Terminal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +21,9 @@ export const NAV_ITEMS = [
   { to: "/hermes", label: "Hermes", icon: Compass },
   { to: "/memory", label: "Memory", icon: Database },
   { to: "/treatment", label: "Trade Treatment", icon: Stethoscope },
+  { to: "/agents", label: "Agent Room", icon: Bot },
+  { to: "/console", label: "Op Console", icon: Terminal },
+  { to: "/sql-audit", label: "SQL Audit", icon: Database },
   { to: "/mirofish", label: "MiroFish", icon: Fish },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;

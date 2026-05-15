@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TreatmentRouteImport } from './routes/treatment'
 import { Route as TradesRouteImport } from './routes/trades'
+import { Route as SqlAuditRouteImport } from './routes/sql-audit'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
@@ -21,10 +22,12 @@ import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HermesRouteImport } from './routes/hermes'
 import { Route as GovernorRouteImport } from './routes/governor'
+import { Route as ConsoleRouteImport } from './routes/console'
 import { Route as ChartRouteImport } from './routes/chart'
 import { Route as CandlesightRouteImport } from './routes/candlesight'
 import { Route as BrainRouteImport } from './routes/brain'
 import { Route as ArenaRouteImport } from './routes/arena'
+import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TreatmentRoute = TreatmentRouteImport.update({
@@ -35,6 +38,11 @@ const TreatmentRoute = TreatmentRouteImport.update({
 const TradesRoute = TradesRouteImport.update({
   id: '/trades',
   path: '/trades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SqlAuditRoute = SqlAuditRouteImport.update({
+  id: '/sql-audit',
+  path: '/sql-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -87,6 +95,11 @@ const GovernorRoute = GovernorRouteImport.update({
   path: '/governor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsoleRoute = ConsoleRouteImport.update({
+  id: '/console',
+  path: '/console',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChartRoute = ChartRouteImport.update({
   id: '/chart',
   path: '/chart',
@@ -107,6 +120,11 @@ const ArenaRoute = ArenaRouteImport.update({
   path: '/arena',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -115,10 +133,12 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -129,15 +149,18 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -148,16 +171,19 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
   '/arena': typeof ArenaRoute
   '/brain': typeof BrainRoute
   '/candlesight': typeof CandlesightRoute
   '/chart': typeof ChartRoute
+  '/console': typeof ConsoleRoute
   '/governor': typeof GovernorRoute
   '/hermes': typeof HermesRoute
   '/login': typeof LoginRoute
@@ -168,6 +194,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
   '/settings': typeof SettingsRoute
+  '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
 }
@@ -175,10 +202,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agents'
     | '/arena'
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -189,15 +218,18 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agents'
     | '/arena'
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -208,15 +240,18 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   id:
     | '__root__'
     | '/'
+    | '/agents'
     | '/arena'
     | '/brain'
     | '/candlesight'
     | '/chart'
+    | '/console'
     | '/governor'
     | '/hermes'
     | '/login'
@@ -227,16 +262,19 @@ export interface FileRouteTypes {
     | '/reports'
     | '/risk'
     | '/settings'
+    | '/sql-audit'
     | '/trades'
     | '/treatment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsRoute: typeof AgentsRoute
   ArenaRoute: typeof ArenaRoute
   BrainRoute: typeof BrainRoute
   CandlesightRoute: typeof CandlesightRoute
   ChartRoute: typeof ChartRoute
+  ConsoleRoute: typeof ConsoleRoute
   GovernorRoute: typeof GovernorRoute
   HermesRoute: typeof HermesRoute
   LoginRoute: typeof LoginRoute
@@ -247,6 +285,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
   SettingsRoute: typeof SettingsRoute
+  SqlAuditRoute: typeof SqlAuditRoute
   TradesRoute: typeof TradesRoute
   TreatmentRoute: typeof TreatmentRoute
 }
@@ -265,6 +304,13 @@ declare module '@tanstack/react-router' {
       path: '/trades'
       fullPath: '/trades'
       preLoaderRoute: typeof TradesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sql-audit': {
+      id: '/sql-audit'
+      path: '/sql-audit'
+      fullPath: '/sql-audit'
+      preLoaderRoute: typeof SqlAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -337,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/console': {
+      id: '/console'
+      path: '/console'
+      fullPath: '/console'
+      preLoaderRoute: typeof ConsoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chart': {
       id: '/chart'
       path: '/chart'
@@ -365,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArenaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -377,10 +437,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsRoute: AgentsRoute,
   ArenaRoute: ArenaRoute,
   BrainRoute: BrainRoute,
   CandlesightRoute: CandlesightRoute,
   ChartRoute: ChartRoute,
+  ConsoleRoute: ConsoleRoute,
   GovernorRoute: GovernorRoute,
   HermesRoute: HermesRoute,
   LoginRoute: LoginRoute,
@@ -391,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
   SettingsRoute: SettingsRoute,
+  SqlAuditRoute: SqlAuditRoute,
   TradesRoute: TradesRoute,
   TreatmentRoute: TreatmentRoute,
 }
