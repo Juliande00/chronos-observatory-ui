@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Stars, Line } from "@react-three/drei";
 import { useMemo, useRef, useState, Suspense } from "react";
 import * as THREE from "three";
@@ -231,9 +231,8 @@ function Brain({
 }) {
   // schedule firing times for each edge — staggered loop
   const fireSchedule = useRef<number[]>(EDGES.map(() => Math.random() * 6));
-  const { clock } = useThree((s) => ({ clock: s.clock }));
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     fireSchedule.current = fireSchedule.current.map((next) => {
       if (t - next > 1.2) return next + 2 + Math.random() * 5;

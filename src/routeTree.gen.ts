@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UniverseRouteImport } from './routes/universe'
 import { Route as TreatmentRouteImport } from './routes/treatment'
 import { Route as TradesRouteImport } from './routes/trades'
 import { Route as SqlAuditRouteImport } from './routes/sql-audit'
@@ -30,6 +31,11 @@ import { Route as ArenaRouteImport } from './routes/arena'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UniverseRoute = UniverseRouteImport.update({
+  id: '/universe',
+  path: '/universe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TreatmentRoute = TreatmentRouteImport.update({
   id: '/treatment',
   path: '/treatment',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
+  '/universe': typeof UniverseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByTo {
   '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
+  '/universe': typeof UniverseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/sql-audit': typeof SqlAuditRoute
   '/trades': typeof TradesRoute
   '/treatment': typeof TreatmentRoute
+  '/universe': typeof UniverseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/sql-audit'
     | '/trades'
     | '/treatment'
+    | '/universe'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/sql-audit'
     | '/trades'
     | '/treatment'
+    | '/universe'
   id:
     | '__root__'
     | '/'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/sql-audit'
     | '/trades'
     | '/treatment'
+    | '/universe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -288,10 +300,18 @@ export interface RootRouteChildren {
   SqlAuditRoute: typeof SqlAuditRoute
   TradesRoute: typeof TradesRoute
   TreatmentRoute: typeof TreatmentRoute
+  UniverseRoute: typeof UniverseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/universe': {
+      id: '/universe'
+      path: '/universe'
+      fullPath: '/universe'
+      preLoaderRoute: typeof UniverseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/treatment': {
       id: '/treatment'
       path: '/treatment'
@@ -456,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   SqlAuditRoute: SqlAuditRoute,
   TradesRoute: TradesRoute,
   TreatmentRoute: TreatmentRoute,
+  UniverseRoute: UniverseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
